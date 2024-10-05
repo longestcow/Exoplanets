@@ -1,12 +1,16 @@
 let canvas;
 
-let planetOneImg;
-let planetTwoImg;
-let planetThreeImg;
-let planetFourImg;
-let planetFiveImg;
+let NUM_OF_PLANETS = 5;
+let planetImgs = [];
 
 let mouseShuttle;
+let mouseShuttle2;
+let shuttleXPos;
+let shuttleYPos;
+let pShuttleXPos;
+let pShuttleYPos;
+
+let ufoXPos;
 
 let theta = 0;
 
@@ -18,15 +22,18 @@ scrolling.addEventListener('wheel', mouseWheel);
 
 
 function preload() {
-  planetOneImg = loadImage('assets/planetImg/planetThreeImg.png');
+  for (let planet = 0; planet < NUM_OF_PLANETS; planet++) {
+    planetImgs.push(loadImage("assets/planetImg/planet" +planet+ "Img.png"));
+  }
   mouseShuttle = loadImage("assets/mouse/shuttle.png");
-  imageMode(CENTER);
+  mouseShuttle2 = loadImage("assets/mouse/shuttle.png");
+
+  // imageMode(CENTER);
 }
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight, WEBGL);
   canvas.style('position', 'fixed');
-  imageMode(CENTER);
 }
 
 function draw() {
@@ -34,6 +41,7 @@ function draw() {
   drawPlanets();
   addHTMLText();
   followCursor();  
+  followScroll();
 }
 
 
@@ -46,8 +54,12 @@ function drawPlanets() {
   // rotateY(theta * mouseX * 0.001);
   
   noStroke();
-  texture(planetOneImg);
-  sphere(80);
+  texture(planetImgs[3]);
+  
+  push(); 
+  translate(100, 100, 10);
+  ellipsoid(100, 60);
+  pop();
 
   theta += 0.05;
 }
@@ -70,14 +82,23 @@ function addHTMLText() {
 
 
 function followCursor() {
-  image(mouseShuttle, pmouseX-width/2.15, pmouseY-height/2.25, mouseShuttle.width/10, mouseShuttle.height/10);
+  shuttleXPos = mouseX-width/2.15;
+  shuttleYPos = mouseY-height/2.25;
+  pShuttleXPos = pmouseX-width/2.15;
+  pShuttleYPos = pmouseY-height/2.25;
+  
+  image(mouseShuttle, shuttleXPos, shuttleYPos, mouseShuttle.width/10, mouseShuttle.height/10);
 }
 
+function followScroll() {
+  imageMode(CENTER);
+  let ufoXPos = map(scrollX, 0, width, 0, windowWidth) - width/2.2 - 10;
+  image(mouseShuttle2, ufoXPos, (height/2)-50, mouseShuttle2.width/10 , mouseShuttle2.height/10);
+}
 
 
 
 function mouseWheel(event) {
   event.currentTarget.scrollLeft += event.deltaY + event.deltaX;
-  mouseScrollAmount = window.scrollX;
   event.preventDefault();
 }
