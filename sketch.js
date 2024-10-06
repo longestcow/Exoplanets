@@ -1,6 +1,6 @@
 let canvas;
 
-let NUM_OF_PLANETS = 5;
+let NUM_OF_PLANETS = 6;
 let planetImgs = [];
 
 let mouseShuttle;
@@ -49,17 +49,18 @@ function draw() {
 
 
 function drawPlanets() {
-  // rotateZ(theta * mouseX * 0.001);
-  // rotateX(theta * mouseX * 0.001);
-  // rotateY(theta * mouseX * 0.001);
+  rotateZ(theta * mouseX * 0.001);
+  rotateX(theta * mouseX * 0.001);
+  rotateY(theta * mouseX * 0.001);
   
   noStroke();
-  texture(planetImgs[3]);
+  texture(planetImgs[5]);
   
-  push(); 
-  translate(100, 100, 10);
-  ellipsoid(100, 60);
-  pop();
+  // push(); 
+  // translate(100, 100, 10);
+  // ellipsoid(100, 60);
+  sphere(80);
+  // pop();
 
   theta += 0.05;
 }
